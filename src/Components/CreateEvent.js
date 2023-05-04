@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext ,useCallback} from "react";
 import DataContext from "../Context/dataContext";
 
 export default function CreateEvent() {
@@ -6,7 +6,7 @@ export default function CreateEvent() {
   const { addEvent } = context;
 
   const [event, setEvents] = useState({
-    eventId: " ",
+    eventId: 5,
     EventName: " ",
     Date: 0,
     startBooking: 0,
@@ -17,12 +17,12 @@ export default function CreateEvent() {
   const handleSubmit = (e) => {
     e.preventDefault();
     addEvent(
-      event.eventId,
+      parseInt(event.eventId),
       event.EventName,
-      event.Date,
-      event.startBooking,
-      event.endBooking,
-      event.tickets
+      parseInt(event.Date),
+      parseInt(event.startBooking),
+      parseInt(event.endBooking),
+      parseInt(event.tickets)
     );
     console.log("Calling handleSubmit.......");
   };

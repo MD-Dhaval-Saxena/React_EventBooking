@@ -14,11 +14,11 @@ export default function EventTotal() {
     <>
     {/* <CreateEvent/> */}
       {/* <h4> {event.EventName}</h4>;   */}
-         {events.map((event) => { 
-           return <div className="card-group mt-3">
+         {events.map((event,eventId) => { 
+           return <div key={eventId} className="card-group mt-3">
            <div  className="card">
              <div  className="card-body">
-            <i>#{event.eventId}</i>
+            <i >#{event.eventId}</i>
                <h5  className="card-title">{event.EventName}</h5>
                <p  className="card-text">  Booking starts {event.Date}.</p>
                <p  className="card-text"><small  className="text-muted">EventTotal {events.length}</small></p>

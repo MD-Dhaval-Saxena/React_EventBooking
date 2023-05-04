@@ -17,6 +17,7 @@ import DataState from "./Context/dataState";
 import CreateEvent from "./Components/CreateEvent";
 import AddTicketCategory from "./Components/AddTicketCategory";
 import EventTotal from "./Components/EventTotal";
+import Mytickets from "./Components/Mytickets";
 function App() {
   return (
     <>
@@ -38,6 +39,9 @@ function App() {
           </Routes> */}
           <Routes>
             <Route path="/CreateEvent" element={<CreateEvent/>} />
+          </Routes>
+          <Routes>
+            <Route path="/Mytickets" element={<Mytickets/>} />
           </Routes>
           <Routes>
             <Route path="/addCategory" element={<AddTicketCategory/>} />

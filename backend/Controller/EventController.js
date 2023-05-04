@@ -172,6 +172,7 @@ module.exports = {
         event.endBooking,
         event.tickets
       );
+    
 
       // console.log(event)
       // Mongo

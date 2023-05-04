@@ -38,13 +38,26 @@ function NavbarOne() {
           <Link className="dropdown-item" to="/EventTotal">Show Events </Link>
         </div>
       </li>
-      <li className="nav-item">
-        <a className="nav-link disabled" href="#">Disabled</a>
-      </li>
+      
+
+     
     </ul>
     <form className="form-inline my-2 my-lg-0">
-      
+
+    <div class="dropdown">
+         
+          <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          My Profile
+        </a>
+        
+         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
+          <Link className="dropdown-item" to="/Mytickets">My tickets</Link>
+          <Link className="dropdown-item" to="/LogOut">Log Out</Link>
+          <Link className="dropdown-divider"></Link>
+        </div>
+      </div>
       <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Connect</button>
+
     </form>
   </div>
 </nav>
