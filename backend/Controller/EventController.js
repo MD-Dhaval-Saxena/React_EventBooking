@@ -1,6 +1,6 @@
 require("dotenv").config();
 
-const db=require('../db');
+const db = require("../db");
 const ethers = require("ethers");
 const dataModel = require("../Models/Event");
 const abi = require("../ABI/abi.json");
@@ -20,7 +20,6 @@ const contract = new ethers.Contract(contract_address, abi, provider);
 const token = new ethers.Contract(Token_address, tokenAbi, provider);
 contracWithWallet = contract.connect(wallet);
 tokenWithWallet = token.connect(wallet);
-
 
 // try {
 //   mongoose.connect(process.env.mongo_url);
@@ -172,7 +171,6 @@ module.exports = {
         event.endBooking,
         event.tickets
       );
-    
 
       // console.log(event)
       // Mongo
@@ -268,12 +266,11 @@ module.exports = {
     let category = data.category;
     try {
       const tx = await contracWithWallet.VerifyTicket(eventId, category);
-    console.log("Please Give Apporval Before Calling..");
-    res.send({ "Ticket Verified": true });
+      console.log("Please Give Apporval Before Calling..");
+      res.send({ "Ticket Verified": true });
     } catch (error) {
-      res.send(error.error.error.body)
+      res.send(error.error.error.body);
     }
-    
   },
   cancelTicket: async (req, res) => {
     //   // {
@@ -292,8 +289,7 @@ module.exports = {
         category,
         _quantity
       );
-    res.send({ "Ticket Cancelled Succufully": true });
-
+      res.send({ "Ticket Cancelled Succufully": true });
     } catch (error) {
       res.send(error);
     }
@@ -325,12 +321,11 @@ module.exports = {
     let eventId = data.eventId;
     let _category = data._category;
     try {
-    const tx = await contracWithWallet.claimRefund(eventId, _category);
-    res.send({ "Claimed Refund Succufully": true });
-      
+      const tx = await contracWithWallet.claimRefund(eventId, _category);
+      res.send({ "Claimed Refund Succufully": true });
     } catch (error) {
       // res.send(error)
-      res.send(error.error.error.body)
+      res.send(error.error.error.body);
     }
     console.log(req.body);
   },

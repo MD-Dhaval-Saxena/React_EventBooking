@@ -1,14 +1,77 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
+import DataContext from "../Context/dataContext";
+
+import abi from "../ABI/abi.json";  
 import {
   useLocation,
   Link
 } from "react-router-dom";
-
+const ethers = require("ethers");
 
 function NavbarOne() {
+  const context = useContext(DataContext);
+  const { ConnectWalletHandler,defaultAccount } = context;
+
+  const contract_address = process.env.REACT_APP_contract_address;
+
+  // const [errMsg, seterrMsg] = useState("");
+  // const [defaultAccount, setdefaultAccount] = useState("Connect");
+  // const [provider, setprovider] = useState(null);
+  // const [connectBtn, setconnectBtn] = useState("Connect Wallet");
+  // const [name, setname] = useState("");
+  // const [To, setTo] = useState("")
+  // const [Amount, setAmount] = useState(0)
+
+
+  // const [signer, setsigner] = useState(null);
+  // const [contract, setcontract] = useState(null);
+
   let location = useLocation();
+  
   useEffect(() => {
   }, [location]);
+
+  const handleConnect=()=>{
+    // e.preventDefault();
+    console.log("metmask connecting");
+    ConnectWalletHandler();
+    
+  }
+
+  // const accountHandler = (setAccount) => {
+  // setdefaultAccount(setAccount);
+  // send()
+  // }
+  // const send = () => {
+  //   let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+  //   setprovider(tempProvider);
+
+  //   let tempSigner = tempProvider.getSigner();
+  //   console.log("🚀 ----------------------------------🚀")
+  //   console.log("🚀 ~ send ~ tempSigner:", tempSigner)
+  //   console.log("🚀 ----------------------------------🚀")
+  //   setsigner(tempSigner);
+
+  //   const tempContract = new ethers.Contract(contract_address, abi, tempSigner);
+  //   setcontract(tempContract);
+
+
+  // };
+
+  // const ConnectWalletHandler = (e) => {
+  //   e.preventDefault()
+  //   console.log("metamask");
+  //   if (window.ethereum) {
+  //     window.ethereum
+  //       .request({ method: "eth_requestAccounts" })
+  //       .then((result) => {
+  //         accountHandler(result[0]);
+  //         setconnectBtn("Connected");
+  //       });
+  //   } else {
+  //     seterrMsg("Please Install Metamask Extention");
+  //   }
+  // };
   return(
 
     <>
@@ -24,7 +87,7 @@ function NavbarOne() {
  <Link className={`nav-link ${location.pathname==="/home" ? "active": ""}`} to="/home">Home <span className="sr-only">(current)</span></Link>
       </li>
       <li className="nav-item">
-        <Link className={`nav-link ${location.pathname==="/link" ? "active": ""}`} to="/link">Link</Link>
+        <Link className={`nav-link ${location.pathname==="/movies" ? "active": ""}`} to="/movies">Movies</Link>
       </li>
       <li className="nav-item dropdown">
         <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -34,19 +97,33 @@ function NavbarOne() {
           <Link className="dropdown-item" to="/CreateEvent">Create Event</Link>
           <Link className="dropdown-item" to="/addCategory">Add Ticket Category</Link>
           <Link className="dropdown-divider"></Link>
-          <Link className="dropdown-item" to="#">Search Event</Link>
+          <Link className="dropdown-item" to="/search">Search Event</Link>
           <Link className="dropdown-item" to="/EventTotal">Show Events </Link>
         </div>
       </li>
       
+   
 
      
     </ul>
+    
     <form className="form-inline my-2 my-lg-0">
+    <div class="center">
+  <div class="center left">
+    <label>
+      <input type="checkbox" value="false"/>
+      <span class="switch">
+        <span class="switch-button"></span>
+      </span>
+    </label>
+  </div>
+ 
+</div>
+
 
     <div class="dropdown">
          
-          <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           My Profile
         </a>
         
@@ -56,7 +133,8 @@ function NavbarOne() {
           <Link className="dropdown-divider"></Link>
         </div>
       </div>
-      <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Connect</button>
+      {/* <button  onClick={ConnectWalletHandler}>{connectBtn}</button> */}
+      <button className="btn btn-success" onClick={ConnectWalletHandler}>{defaultAccount}</button>
 
     </form>
   </div>

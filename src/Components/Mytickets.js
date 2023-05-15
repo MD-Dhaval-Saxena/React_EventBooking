@@ -17,8 +17,8 @@ export default function Mytickets() {
   return (
     <>
       <h3 className="mt-5">View Myticket</h3>
-      <hr />
-
+      <hr/>
+      
       <article className="ticket">
         <header className="ticket__wrapper">
           <div className="ticket__header">{ticket} 🎟</div>
@@ -30,14 +30,14 @@ export default function Mytickets() {
         <div className="ticket__body">
           <section className="ticket__section">
             <h3>Your Tickets</h3>
-            <p>Level 1 VIP Club Seats and Bar</p>
-            <p>Block 406 Row Q Seats 34-35</p>
-            <p>Your seats are together</p>
+            <p>Silver 1 Seats and Bar</p>
+            <p>Block 406 Row D-E</p>
+            <p>seats are first come first serve basis</p>
           </section>
           <section className="ticket__section">
-            <h3>Venue Address</h3>
-            <p>8 Joanne Lane, 2516 AC Den Haag</p>
-            <p>Netherlands</p>
+            <h3>Pallidum Mall</h3>
+            <p>Near cross road Thaletej,Ahmedabad </p>
+            <p>India</p>
           </section>
           {/* <section className="ticket__section">
       <h3>Payment Method</h3>

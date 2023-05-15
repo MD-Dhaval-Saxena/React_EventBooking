@@ -11,3 +11,35 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+#ddlViewBy {
+  padding: 8px;
+  font-size: 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background-color: #f2f2f2;
+}
+
+/* Styling the options within the select element */
+#ddlViewBy option {
+  padding: 8px;
+  font-size: 16px;
+}
+
+
+.col-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+/* Styling the input container */
+.input-container {
+  display: flex;
+  align-items: center;
+}
+.col-form-label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
