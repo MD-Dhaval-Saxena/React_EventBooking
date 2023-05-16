@@ -4,9 +4,9 @@ import DataContext from "../Context/dataContext";
 export default function Loader() {
   const data = useContext(DataContext);
   return (
-    <div class="loader">
-      <i class="loader-el"></i>
-      <i class="loader-el"></i>
+    <div className="loader">
+      <i className="loader-el"></i>
+      <i className="loader-el"></i>
     </div>
   );
 }

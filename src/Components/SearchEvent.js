@@ -52,27 +52,27 @@ export default function CreateEvent() {
               ) : (
                 <>
                   {events.map((event) => {
-                    return <div class="col-md-12 mt-5">
-                      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <div class="col p-4 d-flex flex-column position-static">
-                          <strong class="d-inline-block mb-2 text-primary">
+                    return <div className="col-md-12 mt-5">
+                      <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                        <div className="col p-4 d-flex flex-column position-static">
+                          <strong className="d-inline-block mb-2 text-primary">
                             {event.eventId}
                           </strong>
-                          <h3 class="mb-0"> {event.EventName}</h3>
-                          <div class="mb-1 text-body-secondary">
+                          <h3 className="mb-0"> {event.EventName}</h3>
+                          <div className="mb-1 text-body-secondary">
                           {event.Date}
                           </div>
-                          <p class="card-text mb-auto">
+                          <p className="card-text mb-auto">
                             This is a wider card with supporting text below as a
                             natural lead-in to additional content.
                           </p>
-                          <a href="#" class="stretched-link">
+                          <a href="#" className="stretched-link">
                             View More
                           </a>
                         </div>
-                        <div class="col-auto d-none d-lg-block">
+                        <div className="col-auto d-none d-lg-block">
                           <svg
-                            class="bd-placeholder-img"
+                            className="bd-placeholder-img"
                             width="200"
                             height="250"
                             xmlns=""

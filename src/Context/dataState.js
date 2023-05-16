@@ -2,7 +2,8 @@ import DataContext from "./dataContext";
 import { useCallback, useState } from "react";
 import abi from "../ABI/abi.json";  
 const ethers = require("ethers");
-
+const toEth = (value) => ethers.utils.formatEther(value);
+const toWei = (value) => ethers.utils.parseEther(value.toString());
 
 
 const DataState = (props) => {
@@ -71,9 +72,10 @@ const DataState = (props) => {
 
   const getData = async () => {
     // setLoading(true);
-    let events=[{
+    let events=[
+    {
       "eventId": 1,
-      "EventName": "Samay Raina Unfiltered - India Tour",
+      "EventName": "ArRehman live in Concert - Ahmedabad",
       "Date": 1683022226,
       "startBooking": 1682919935,
       "endBooking": 1683022226,
@@ -85,22 +87,32 @@ const DataState = (props) => {
       "Date": 1683022226,
       "startBooking": 1682919935,
       "endBooking": 1683022226,
-      "tickets": 100
-    }]
+      "tickets": 300
+    },
+    {
+      "eventId": 3,
+      "EventName": "badshah",
+      "Date": 1683022226,
+      "startBooking": 1682919935,
+      "endBooking": 1683022226,
+      "tickets": 200
+    },
+  ]
     
     
-    try {
-      const response = await fetch(`${host}ViewAllEvent`, {
-        method: "GET",
+    // try {
+    //   const response = await fetch(`${host}ViewAllEvent`, {
+    //     method: "GET",
         
-      });
-      /* eslint-disable */
-      const json = await response.json();
-      setEvents(json);
-      setLoading(false);
-    } catch (error) {
-      console.error("While fetching Notes Something went wrong");
-    }
+    //   });
+    //   /* eslint-disable */
+    //   const json = await response.json();
+      setEvents(events);
+    //   setEvents(json);
+    //   setLoading(false);
+    // } catch (error) {
+    //   console.error("While fetching Notes Something went wrong");
+    // }
   };
   
   const searchEvent = async (eventId) => {
@@ -124,6 +136,9 @@ const DataState = (props) => {
 
 //Add Event Sign with metamsk 
   const addEvent = async (eventId, EventName,Date, startBooking,endBooking,tickets) => {
+    console.log("🚀 --------------------------------🚀")
+    console.log("🚀 ~ addEvent ~ tickets:", tickets)
+    console.log("🚀 --------------------------------🚀")
     console.log("hitting api");
 
       // const response = await fetch(`${host}CreateEvent`, {
@@ -143,29 +158,43 @@ const DataState = (props) => {
       let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
       let tempSigner = tempProvider.getSigner();
       let tx=await contract.connect(tempSigner).createEvent(eventId, EventName,Date, startBooking,endBooking,tickets);
+      console.log("🚀 ----------------------🚀")
+      console.log("🚀 ~ addEvent ~ tx:", tx)
+      console.log("🚀 ----------------------🚀")
       // setEvents(events.concat(event));
+  };
+  const addCategory = async (eventId, category,price,tickets) => {
+   
+   
+      console.log("hitting addCategory api");
+
+      let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+      let tempSigner = tempProvider.getSigner();
+      let tx=await contract.connect(tempSigner).add_Ticket_Category(eventId, category,toWei(price), tickets);
+      console.log("🚀 ----------------------🚀")
+      console.log("🚀 ~ addEvent ~ tx:", tx)
+      console.log("🚀 ----------------------🚀")
+      setEvents(events.concat(event));
   };
 
 // Value of ticket Will autocalculate
-  const Book=async(eventId,category,quantity)=>{
-    console.log(eventId,category,quantity);
-    console.log("🚀 ------------------------------🚀")
-    console.log("🚀 ~ Book ~ category:", category)
-    console.log("🚀 ------------------------------🚀")
-    console.log("🚀 ----------------------------🚀")
-    console.log("🚀 ~ Book ~ eventId:", eventId)
-    console.log("🚀 ----------------------------🚀")
-    // console.log("Booking.....");
+  const Book=async(eventId,category,quantity)=>{    
+    
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
-      let tempSigner = tempProvider.getSigner();
-      // let tx=await contract.connect(tempSigner).eventTicketCategories(eventId, `${eventId}00${category}`);
-      // console.log("🚀 ------------------🚀")
-      // console.log("🚀 ~ Book ~ tx:", parseInt(tx))
-      // console.log("🚀 ------------------🚀")
+    let tempSigner = tempProvider.getSigner();
+    
+    let tx=await contract.connect(tempSigner).eventTicketCategories(eventId, `${eventId}00${category}`);
 
-      
-//  let tx=await contract.connect(tempSigner).eventTicketCategories(3, 3001);
-//  console.log("🚀 ~ Book ~ tx:", parseInt(tx))
+    let val=toEth(tx.price);
+    console.log("🚀 --------------------🚀")
+    console.log("🚀 ~ Book ~ val:", val)
+    console.log("🚀 --------------------🚀")
+   
+    
+
+    let valueAmount = { value: toWei(val) };
+    let book=await contract.connect(tempSigner).bookTicket(eventId, `${eventId}00${category}`,quantity,valueAmount);
+
 
   }
 
@@ -178,16 +207,16 @@ const DataState = (props) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({category:6001}),
+        body: JSON.stringify({category:7001}),
         });
 
-      const response2 = await fetch(`${host}ViewTicket`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({category:6001}),
-        });
+      // const response2 = await fetch(`${host}ViewTicket`, {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify({category:6001}),
+      //   });
       /* eslint-disable */
         const json = await response.json();
           // console.log(json.category);
@@ -222,7 +251,7 @@ const DataState = (props) => {
 
 
   return (
-    <DataContext.Provider value={{getMovies, events, setEvents, addEvent,getData,searchEvent,ticket,myTicket,loading,setLoading,ConnectWalletHandler,defaultAccount,Book }}>
+    <DataContext.Provider value={{getMovies, events, setEvents, addEvent,getData,searchEvent,ticket,myTicket,loading,setLoading,ConnectWalletHandler,defaultAccount,Book,addCategory }}>
       {props.children}
     </DataContext.Provider>
   );

@@ -108,12 +108,12 @@ function NavbarOne() {
     </ul>
     
     <form className="form-inline my-2 my-lg-0">
-    <div class="center">
-  <div class="center left">
+    <div className="center">
+  <div className="center left">
     <label>
       <input type="checkbox" value="false"/>
-      <span class="switch">
-        <span class="switch-button"></span>
+      <span className="switch">
+        <span className="switch-button"></span>
       </span>
     </label>
   </div>
@@ -121,7 +121,7 @@ function NavbarOne() {
 </div>
 
 
-    <div class="dropdown">
+    <div className="dropdown">
          
       <a className="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           My Profile

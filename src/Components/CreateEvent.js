@@ -98,6 +98,7 @@ export default function CreateEvent() {
               className="form-control"
               id="tickets"
               name="tickets"
+              onChange={onChange}
               aria-describedby="emailHelp"
               placeholder="Enter tickets"
             />

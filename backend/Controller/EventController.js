@@ -43,15 +43,57 @@ const toDate = (value) => {
   return humanDateFormat;
 };
 module.exports = {
+  // ViewEvent: async (req, res) => {
+  //   let events = []; //Stores the Json Data
+  //   let CatLen = [1, 2, 3];
+  //   let event;
+  //   let category;
+  //   let tx1;
+  //   let id = req.params.id;
+
+  //   //Mapping that stores event data
+  //   // mapping(uint256 => Event) public eventInfo;
+  //   const tx = await contracWithWallet.eventInfo(id);
+  //   event = {
+  //     eventId: parseInt(tx.eventId),
+  //     EventName: tx.EventName,
+  //     Owner: tx.Owner,
+  //     Date: toDate(tx.Date),
+  //     startBooking: toDate(tx.startBooking),
+  //     endBooking: toDate(tx.endBooking),
+  //     tickets: parseInt(tx.tickets),
+  //   };
+  //   if (!event.eventId == 0) {
+  //     events.push(event);
+  //   }
+
+  //   for (let cID = 1; cID <= CatLen.length; cID++) {
+  //     tx1 = await contracWithWallet.eventTicketCategories(id, `${id}00${cID}`);
+  //     category = {
+  //       categoryID: `${id}00${cID}`,
+  //       price: parseInt(tx1.price),
+  //       totalTickets: parseInt(tx1.totalTickets),
+  //     };
+
+  //     if (!category.price == 0 && !event.eventId == 0) {
+  //       // events.push(category);
+  //       Object.assign(event, category);
+  //     }
+  //     events.push(event); //latest change 16 may
+  //   }
+  //   if (!events.length == 0) {
+  //     res.send(events);
+  //   } else {
+  //     res.send({ status: "No event Found" });
+  //   }
+  // },
   ViewEvent: async (req, res) => {
-    let events = []; //Stores the Json Data
+    let events = []; // Stores the Json Data
     let CatLen = [1, 2, 3];
     let event;
-    let category;
-    let tx1;
     let id = req.params.id;
-
-    //Mapping that stores event data
+  
+    // Mapping that stores event data
     // mapping(uint256 => Event) public eventInfo;
     const tx = await contracWithWallet.eventInfo(id);
     event = {
@@ -62,29 +104,32 @@ module.exports = {
       startBooking: toDate(tx.startBooking),
       endBooking: toDate(tx.endBooking),
       tickets: parseInt(tx.tickets),
+      categories: [] // Array to store categories
     };
+  
     if (!event.eventId == 0) {
+      for (let cID = 1; cID <= CatLen.length; cID++) {
+        const tx1 = await contracWithWallet.eventTicketCategories(id, `${id}00${cID}`);
+        const category = {
+          categoryID: `${id}00${cID}`,
+          price: parseInt(tx1.price),
+          totalTickets: parseInt(tx1.totalTickets),
+        };
+  
+        if (!category.price == 0) {
+          event.categories.push(category); // Push the category into the categories array
+        }
+      }
       events.push(event);
     }
-
-    for (let cID = 1; cID <= CatLen.length; cID++) {
-      tx1 = await contracWithWallet.eventTicketCategories(id, `${id}00${cID}`);
-      category = {
-        categoryID: `${id}00${cID}`,
-        price: parseInt(tx1.price),
-        totalTickets: parseInt(tx1.totalTickets),
-      };
-
-      if (!category.price == 0 && !event.eventId == 0) {
-        events.push(category);
-      }
-    }
+  
     if (!events.length == 0) {
       res.send(events);
     } else {
       res.send({ status: "No event Found" });
     }
   },
+  
   ViewAllEvent: async (req, res) => {
     let events = [];
     let CatLen = [1, 2, 3]; //Fetch from contract
@@ -130,7 +175,9 @@ module.exports = {
         };
 
         if (!category.price == 0 && !event.eventId == 0) {
-          events.push(category);
+          // events.push(category);
+          Object.assign(event, category);
+
         }
       }
     }

@@ -30,14 +30,14 @@ function App() {
           <NavbarOne />
         <div className="container"> 
           <Routes>
-            <Route path="/home" element={<Home />} />
+            <Route  path="/home" element={<Home />} />
           </Routes>
           <Routes>
             <Route path="/link" element={<Sample/>} />
           </Routes>
         {/* IMplement Loader here */}
           <Routes>
-            <Route path="/EventTotal" 
+            <Route  path="/EventTotal" 
             element={<EventTotal/>} />
           </Routes>
         
