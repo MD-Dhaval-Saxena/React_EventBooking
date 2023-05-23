@@ -14,14 +14,16 @@
     "react-bootstrap": "^2.7.4",
     "react-router-dom": "^6.11.0",
     "react-scripts": "5.0.1",
+    "vite": "^4.3.8",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start ",
+    "dev":"vite",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "both": "concurrently \"npm run start\" \"nodemon backend/app.js\""
+    "both": "concurrently \"npm run start\"  \"npm run dev\"  \"nodemon backend/app.js\" "
   },
   "eslintConfig": {
     "extends": [
@@ -42,10 +44,13 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^10.4.14",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "^6.7.1",
     "eslint-plugin-react": "^7.32.2",
-    "eslint-plugin-react-hooks": "^4.6.0"
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2"
   }
 }

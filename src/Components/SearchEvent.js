@@ -3,20 +3,49 @@ import DataContext from "../Context/dataContext";
 import Loader from "../Components/Loader";
 
 export default function CreateEvent() {
-  const context = useContext(DataContext);
-  const { events,searchEvent, loading } = context;
+  const host = process.env.REACT_APP_Backend_Host;
+  console.log("🚀 -----------------------------🚀")
+  console.log("🚀 ~ CreateEvent ~ host:", host)
+  console.log("🚀 -----------------------------🚀")
+
+  // const context = useContext(DataContext);
+  // const { events } = context;
+  const [events, setEveData] = useState([]);
 
   const [event, setEvents] = useState({
     eventId: 5,
   });
+  const [loading, setLoading] = useState(false);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     searchEvent(event.eventId);
+    console.log("🚀 --------------------------------------------------🚀")
+    console.log("🚀 ~ handleSubmit ~ e.target.value:", event.eventId)
+    console.log("🚀 --------------------------------------------------🚀")
   };
 
   const onChange = (e) => {
     setEvents({ ...event, [e.target.name]: e.target.value });
+  };
+
+  const searchEvent = async (eventId) => {
+    console.log(`loading searchEvent ${eventId}`);
+
+    setLoading(true);
+    try {
+      const response = await fetch(`${host}ViewEvent/${eventId}`, {
+        method: "GET",
+      });
+      /* eslint-disable */
+      const json = await response.json();
+      console.log(json);
+      setEveData(json);
+      setLoading(false);
+    } catch (error) {
+      console.error("While fetching Notes Something went wrong");
+    }
   };
   return (
     <>
@@ -63,8 +92,7 @@ export default function CreateEvent() {
                           {event.Date}
                           </div>
                           <p className="card-text mb-auto">
-                            This is a wider card with supporting text below as a
-                            natural lead-in to additional content.
+                          Seats are based on a first come first serve basis
                           </p>
                           <a href="#" className="stretched-link">
                             View More

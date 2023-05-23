@@ -1,16 +1,34 @@
 import React, { useState, useEffect, useContext ,useCallback} from "react";
 import DataContext from "../Context/dataContext";
+const ethers = require("ethers");
+const toEth = (value) => ethers.utils.formatEther(value);
+const toWei = (value) => ethers.utils.parseEther(value.toString());
 
 export default function AddTicketCategory() {
   const context = useContext(DataContext);
-  const { addCategory } = context;
+  const { contract } = context;
+ 
 
   const [category, setCategory] = useState({
-    eventId: 5,
-    _category: 0,
-    price: 0,
-    tickets:0,
+    eventId: "",
+    _category: "",
+    price: "",
+    tickets:"",
   });
+
+  const addCategory = async (eventId, category, price, tickets) => {
+    console.log("hitting addCategory api");
+
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    let tempSigner = tempProvider.getSigner();
+    let tx = await contract
+      .connect(tempSigner)
+      .add_Ticket_Category(eventId, `${eventId}00${category}`, toWei(price), tickets);
+    console.log("🚀 ----------------------🚀");
+    console.log("🚀 ~ addEvent ~ tx:", tx);
+    console.log("🚀 ----------------------🚀");
+    // setEvents(events.concat(event));
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,19 +38,23 @@ export default function AddTicketCategory() {
       parseFloat(category.price),
       parseInt(category.tickets),
     );
+    
+    
     console.log("Calling handleSubmit.......");
+    setCategory({eventId:"",_category:"",price:"",tickets:""});
   };
 
   const onChange = (e) => {
     setCategory({ ...category, [e.target.name]: e.target.value });
+
   };
   return (
     <>
       <center>
-        <h3>Add Tciket Categories here</h3>
+        <h3 class="my-3">Add Ticket Categories here</h3>
       </center>
       <div className="container">
-        <form>
+        <form >
           <div className="form-group">
             <input
               type="text"

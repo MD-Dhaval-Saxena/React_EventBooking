@@ -95,13 +95,12 @@ function NavbarOne() {
         </a>
         <div className="dropdown-menu" aria-labelledby="navbarDropdown">
           <Link className="dropdown-item" to="/CreateEvent">Create Event</Link>
-          <Link className="dropdown-item" to="/addCategory">Add Ticket Category</Link>
+          <Link className="dropdown-item"  to="/addCategory">Add Ticket Category</Link>
           <Link className="dropdown-divider"></Link>
           <Link className="dropdown-item" to="/search">Search Event</Link>
           <Link className="dropdown-item" to="/EventTotal">Show Events </Link>
         </div>
       </li>
-      
    
 
      
@@ -129,11 +128,12 @@ function NavbarOne() {
         
          <div className="dropdown-menu" aria-labelledby="navbarDropdown">
           <Link className="dropdown-item" to="/Mytickets">My tickets</Link>
-          <Link className="dropdown-item" to="/LogOut">Log Out</Link>
+          <Link className="dropdown-item"  to="/">Log Out</Link>
           <Link className="dropdown-divider"></Link>
         </div>
-      </div>
+    </div>
       {/* <button  onClick={ConnectWalletHandler}>{connectBtn}</button> */}
+      {/* <button className="btn btn-success" onClick={ConnectWalletHandler}>{defaultAccount.substr(32, 42)}</button> */}
       <button className="btn btn-success" onClick={ConnectWalletHandler}>{defaultAccount}</button>
 
     </form>

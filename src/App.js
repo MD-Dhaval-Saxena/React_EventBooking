@@ -15,9 +15,9 @@ import AddTicketCategory from "./Components/AddTicketCategory";
 import EventTotal from "./Components/EventTotal";
 import Mytickets from "./Components/Mytickets";
 import Loader from "./Components/Loader";
-import Movies from "./Components/Movies";
 import SearchEvent from "./Components/SearchEvent";
 import User from "./Components/User";
+import Nav from "./Components/Nav";
 
 function App() {
 
@@ -27,8 +27,8 @@ function App() {
     <>
       <DataState>
         <BrowserRouter>
-          <NavbarOne />
-        <div className="container"> 
+          <Nav />
+        {/* <div className="container">  */}
           <Routes>
             <Route  path="/home" element={<Home />} />
           </Routes>
@@ -50,16 +50,14 @@ function App() {
           <Routes>
             <Route path="/addCategory" element={<AddTicketCategory/>} />
           </Routes>
-          <Routes>
-            <Route path="/movies" element={<Movies/>} />
-          </Routes>
+          
           <Routes>
             <Route path="/search" element={<SearchEvent/>} />
           </Routes>
           <Routes>
             <Route path="/user/:name" element={<User/> } />
           </Routes>
-          </div>
+          {/* </div> */}
         </BrowserRouter>
       </DataState>
     </>
