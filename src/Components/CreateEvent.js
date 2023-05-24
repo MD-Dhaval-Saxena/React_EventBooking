@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext ,useCallback} from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../Context/dataContext";
 import abi from "../ABI/abi.json";
+import Alert from "./Alert";
 const ethers = require("ethers");
 const toEth = (value) => ethers.utils.formatEther(value);
 const toWei = (value) => ethers.utils.parseEther(value.toString());
@@ -28,9 +29,9 @@ export default function CreateEvent() {
     let tx = await contract
       .connect(tempSigner)
       .createEvent(eventId, EventName, Date, startBooking, endBooking, tickets);
-    console.log("🚀 ----------------------🚀");
-    console.log("🚀 ~ addEvent ~ tx:", tx);
-    console.log("🚀 ----------------------🚀");
+    await tx.await()
+    alert("Event Created Succefully")
+    // <Alert/>
     // setEvents(events.concat(event));
   };
 
@@ -82,6 +83,7 @@ export default function CreateEvent() {
   return (
     <>
       <center>
+       
         <h3 class="my-3 ">CreateEvent here</h3>
       </center>
       <div className="container">

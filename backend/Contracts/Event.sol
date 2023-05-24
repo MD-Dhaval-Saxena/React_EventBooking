@@ -25,6 +25,7 @@ contract EventBooking is ERC1155Holder {
 
     uint public eventIdTracker=0;
     uint256 []  CurrEvents ;
+    uint256 []   tickets ;
     uint256 [] public CountCategories ;
     event EventCreate(
         uint256 eventId,
@@ -161,6 +162,7 @@ contract EventBooking is ERC1155Holder {
         tokenAdd.mint(msg.sender, _category, _quantity); //owner mint
         userFunds[_eventID][msg.sender] += msg.value;
         paymentEvent[_eventID]+=msg.value;
+        tickets.push(_category);
         
     }
     
@@ -247,6 +249,9 @@ contract EventBooking is ERC1155Holder {
     }
     function getEvent() public view returns(uint[] memory){
         return CurrEvents;
+    }
+    function getTickets() public view returns(uint[] memory){
+        return tickets;
     }
     function viewAllEvents() public view returns (Event[] memory) {
         Event[] memory id = new Event[](CurrEvents.length); //2

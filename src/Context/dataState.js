@@ -11,6 +11,8 @@ const DataState = (props) => {
   const host = process.env.REACT_APP_Backend_Host;
   const eventIntial = [];
   const [events, setEvents] = useState(eventIntial);
+  const [ticketData, setTicketData] = useState([]);
+
   const [ticket, setTicket] = useState(0);
 
   // Metamask
@@ -112,6 +114,8 @@ const DataState = (props) => {
         defaultAccount,
         toEth,
         toWei,
+        ticketData,
+        setTicketData
       }}
     >
       {props.children}

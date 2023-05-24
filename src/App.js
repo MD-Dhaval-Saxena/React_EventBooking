@@ -12,12 +12,15 @@ import ViewEvents from "./Components/ViewEvents";
 import DataState from "./Context/dataState";
 import CreateEvent from "./Components/CreateEvent";
 import AddTicketCategory from "./Components/AddTicketCategory";
+import VerifyTicket from "./Components/VerifyTicket";
 import EventTotal from "./Components/EventTotal";
 import Mytickets from "./Components/Mytickets";
 import Loader from "./Components/Loader";
 import SearchEvent from "./Components/SearchEvent";
 import User from "./Components/User";
 import Nav from "./Components/Nav";
+import ClaimRefund from "./Components/ClaimRefund";
+import CancelEvent from "./Components/CancelEvent";
 
 function App() {
 
@@ -28,9 +31,10 @@ function App() {
       <DataState>
         <BrowserRouter>
           <Nav />
+          
         {/* <div className="container">  */}
           <Routes>
-            <Route  path="/home" element={<Home />} />
+            <Route  path="/" element={<Home />} />
           </Routes>
           <Routes>
             <Route path="/link" element={<Sample/>} />
@@ -56,6 +60,15 @@ function App() {
           </Routes>
           <Routes>
             <Route path="/user/:name" element={<User/> } />
+          </Routes>
+          <Routes>
+            <Route path="/VerifyTicket" element={<VerifyTicket/> } />
+          </Routes>
+          <Routes>
+            <Route path="/claimRefund" element={<ClaimRefund/> } />
+          </Routes>
+          <Routes>
+            <Route path="/cancelEvent" element={<CancelEvent/> } />
           </Routes>
           {/* </div> */}
         </BrowserRouter>

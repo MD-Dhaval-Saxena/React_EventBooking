@@ -4,9 +4,9 @@ import Loader from "../Components/Loader";
 
 export default function CreateEvent() {
   const host = process.env.REACT_APP_Backend_Host;
-  console.log("🚀 -----------------------------🚀")
-  console.log("🚀 ~ CreateEvent ~ host:", host)
-  console.log("🚀 -----------------------------🚀")
+  console.log("🚀 -----------------------------🚀");
+  console.log("🚀 ~ CreateEvent ~ host:", host);
+  console.log("🚀 -----------------------------🚀");
 
   // const context = useContext(DataContext);
   // const { events } = context;
@@ -17,13 +17,10 @@ export default function CreateEvent() {
   });
   const [loading, setLoading] = useState(false);
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     searchEvent(event.eventId);
-    console.log("🚀 --------------------------------------------------🚀")
-    console.log("🚀 ~ handleSubmit ~ e.target.value:", event.eventId)
-    console.log("🚀 --------------------------------------------------🚀")
+    
   };
 
   const onChange = (e) => {
@@ -75,56 +72,66 @@ export default function CreateEvent() {
               Search
             </button>
 
-            <div>
+            {/* <div> */}
               {loading ? (
                 <Loader />
               ) : (
                 <>
                   {events.map((event) => {
-                    return <div className="col-md-12 mt-5">
-                      <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
-                        <div className="col p-4 d-flex flex-column position-static">
-                          <strong className="d-inline-block mb-2 text-primary">
-                            {event.eventId}
-                          </strong>
-                          <h3 className="mb-0"> {event.EventName}</h3>
-                          <div className="mb-1 text-body-secondary">
-                          {event.Date}
+                    if(event.categoryID>=0){
+                      // console.log("hello");
+                    }
+                   
+                    else{
+
+                    return (
+                      <div className="col-md-12 mt-5">
+                        <div className="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                          <div className="col p-4 d-flex flex-column position-static">
+                            <strong className="d-inline-block mb-2 text-primary">
+                              {event.eventId}
+                            </strong>
+                            <h3 className="mb-0"> {event.EventName}</h3>
+                            <div className="mb-1 text-body-secondary">
+                              {event.Date}
+                            </div>
+                            <p className="card-text mb-auto">
+                              Seats are based on a first come first serve basis
+                            </p>
+                            <a href="#" className="stretched-link">
+                              View More
+                            </a>
                           </div>
-                          <p className="card-text mb-auto">
-                          Seats are based on a first come first serve basis
-                          </p>
-                          <a href="#" className="stretched-link">
-                            View More
-                          </a>
-                        </div>
-                        <div className="col-auto d-none d-lg-block">
-                          <svg
-                            className="bd-placeholder-img"
-                            width="200"
-                            height="250"
-                            xmlns=""
-                            aria-label="Placeholder: Thumbnail"
-                            preserveAspectRatio="xMidYMid slice"
-                            focusable="false"
-                          >
-                            <title>Placeholder</title>
-                            <rect
-                              width="100%"
-                              height="100%"
-                              fill="#55595c"
-                            ></rect>
-                            <text x="50%" y="50%" fill="#eceeef" dy=".3em">
-                              Thumbnail
-                            </text>
-                          </svg>
+                          <div className="col-auto d-none d-lg-block">
+                            <svg
+                              className="bd-placeholder-img"
+                              width="200"
+                              height="250"
+                              xmlns=""
+                              aria-label="Placeholder: Thumbnail"
+                              preserveAspectRatio="xMidYMid slice"
+                              focusable="false"
+                            >
+                              <title>Placeholder</title>
+                              <rect
+                                width="100%"
+                                height="100%"
+                                fill="#55595c"
+                              ></rect>
+                              <text x="50%" y="50%" fill="#eceeef" dy=".3em">
+                                Thumbnail
+                              </text>
+                            </svg>
+                          </div>
                         </div>
                       </div>
-                    </div>;
+                    );
+                  }
+
                   })}
                 </>
               )}
-            </div>
+            {/* </div> */}
           </div>
         </form>
       </div>

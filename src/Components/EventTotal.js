@@ -1,60 +1,71 @@
 import React, { useState, useEffect, useContext } from "react";
-import ViewEvents from "../Components/ViewEvents";
-import CreateEvent from "../Components/CreateEvent";
+
 import DataContext from "../Context/dataContext";
-import { Link } from "react-router-dom";
 import Loader from "./Loader";
-import Modal from "./Modal";
 const ethers = require("ethers");
 
 export default function EventTotal() {
   const context = useContext(DataContext);
   const host = process.env.REACT_APP_Backend_Host;
-  const {
-    events,
-    setEvents,
-    contract,
-    toEth,
-    toWei
-  } = context;
-  
-  const [loading, setLoading] = useState(false)
+  const { events, setEvents, contract, toEth, toWei } = context;
 
-  
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     getData();
-  
-    
   }, []);
-  const getData = async () => {
-    setLoading(true);
-    let events = [
+ 
+    let eventss = [
       {
         eventId: 1,
-        EventName: "ArRehman live in Concert - Ahmedabad",
-        Date: 1683022226,
-        startBooking: 1682919935,
-        endBooking: 1683022226,
-        tickets: 100,
+        EventName: "yoyo honey",
+        Owner: "0x0fadb24C9A7ac088c329C4Fa87730D3B2df2f525",
+        Date: "May 23, 2023 at 3:33\u202fPM",
+        startBooking: "May 23, 2023 at 3:33\u202fPM",
+        endBooking: "May 24, 2023 at 3:33\u202fPM",
+        tickets: 499,
+      },
+      {
+        categoryID: "1001",
+        price: 100000000000000000,
+        totalTickets: 99,
+      },
+      {
+        categoryID: "1002",
+        price: 200000000000000000,
+        totalTickets: 100,
+      },
+      {
+        categoryID: "1003",
+        price: 500000000000000000,
+        totalTickets: 300,
       },
       {
         eventId: 2,
-        EventName: "Ritviz live in Concert - Ahmedabad",
-        Date: 1683022226,
-        startBooking: 1682919935,
-        endBooking: 1683022226,
+        EventName: "badshah live",
+        Owner: "0x0fadb24C9A7ac088c329C4Fa87730D3B2df2f525",
+        Date: "May 23, 2023 at 3:52\u202fPM",
+        startBooking: "May 23, 2023 at 3:53\u202fPM",
+        endBookin: "May 23, 2023 at 3:52\u202fPM",
         tickets: 300,
       },
       {
+        categoryID: "2001",
+        price: 100000000000000000,
+        totalTickets: 100,
+      },
+      {
         eventId: 3,
-        EventName: "badshah",
-        Date: 1683022226,
-        startBooking: 1682919935,
-        endBooking: 1683022226,
-        tickets: 200,
+        EventName: "Ritviz live",
+        Owner: "0x0fadb24C9A7ac088c329C4Fa87730D3B2df2f525",
+        Date: "May 23, 2023 at 3:52\u202fPM",
+        startBooking: "May 23, 2023 at 3:53\u202fPM",
+        endBookin: "May 23, 2023 at 3:52\u202fPM",
+        tickets: 300,
       },
     ];
+    const getData = async () => {
+      setLoading(true);
 
     try {
       const response = await fetch(`${host}ViewAllEvent`, {
@@ -62,16 +73,18 @@ export default function EventTotal() {
       });
       /* eslint-disable */
       const json = await response.json();
+      console.log(json);
       setEvents(json);
-      setLoading(false);
+    // setEvents(eventss);
+    setLoading(false);
     } catch (error) {
       console.error("While fetching Events Something went wrong");
     }
   };
   const [Booking, setBooking] = useState({
-    category:0,
-    quantity:0
-  })
+    category: 0,
+    quantity: 0,
+  });
   const Book = async (eventId, category, quantity) => {
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
@@ -80,44 +93,55 @@ export default function EventTotal() {
       .connect(tempSigner)
       .eventTicketCategories(eventId, `${eventId}00${category}`);
 
-      console.log("🚀 ----------------------------------------------------------------🚀")
-      console.log("🚀 ~ Book ~ `${eventId}00${category}`:", `${eventId}00${category}`)
-      console.log("🚀 ----------------------------------------------------------------🚀")
-    let val=toEth(tx.price) * quantity;
-   
+    console.log(
+      "🚀 ----------------------------------------------------------------🚀"
+    );
+    console.log(
+      "🚀 ~ Book ~ `${eventId}00${category}`:",
+      `${eventId}00${category}`
+    );
+    console.log(
+      "🚀 ----------------------------------------------------------------🚀"
+    );
+    let val = toEth(tx.price) * quantity;
 
     let valueAmount = { value: toWei(val) };
     try {
       let book = await contract
         .connect(tempSigner)
         .bookTicket(eventId, `${eventId}00${category}`, quantity, valueAmount);
+        await book.wait()
+
+        alert(`"Status": "Ticket Booked Succefully ID: ${eventId}00${category}"`)
+      
     } catch (error) {
       console.log(error);
+      alert(error)
+      // alert("User Rejected Booking")
+
     }
+        
   };
-  
+
   const [BookId, setBookId] = useState(0);
 
-  const handleBook=(e)=>{
+  const handleBook = (e) => {
     setBookId(e);
-    
-  }
+  };
 
-  const handleModal=()=>{
+  const handleModal = () => {
     console.log(`Booking EventId ${BookId}`);
     const selectElement = document.getElementById("ddlViewBy");
     const selectedValue = selectElement.value;
 
     // console.log({BookId,...Booking});
-    Book(BookId,parseInt(Booking.category),parseInt(Booking.quantity));
-  }
-  const handleOnchange=(e)=>{
-    setBooking({...Booking, [e.target.name]: e.target.value });
+    Book(BookId, parseInt(Booking.category), parseInt(Booking.quantity));
+  };
+  const handleOnchange = (e) => {
+    setBooking({ ...Booking, [e.target.name]: e.target.value });
     // console.log({...Booking, [e.target.name]: e.target.value });
-  }
-  
-  
-  
+  };
+
   return (
     <>
       <h3 class="text-center mt-2 underline text-white">Ongoing Events</h3>
@@ -132,82 +156,136 @@ export default function EventTotal() {
         ) : (
           <>
             {events.map((event, eventId) => {
+              if(event.categoryID>=0){
+                // console.log("hello");
+              }
+              else if(events.length==0){
+                return(<h1>No Event found</h1>)
+              }
+              else{
+
               return (
-                <div className="container ">
-                <div key={eventId} className="card-group mt-3 ">
+                <div className="container">
+                  <div key={eventId} className="card-group mt-3 ">
                     <div className="card">
                       <div className="card-body bg-[#badfff]">
                         <i>#{event.eventId}</i>
                         <h5 className="card-title">{event.EventName}</h5>
-                        <p className="card-text"> Booking starts {event.Date}.</p>
+                        <p className="card-text">
+                          {" "}
+                          Booking starts {event.Date}.
+                        </p>
                         <p className="card-text">
                           <small className="text-muted">
                             Event tickets:{event.tickets}
                           </small>
                         </p>
-                      {/* Modal */}
-                      <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div className="modal-dialog" role="document">
-                      <div className="modal-content">
-                        <div className="modal-header">
-                          <h5 className="modal-title" id="exampleModalLabel">Book Now {event.eventId}</h5>
-                          <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                          </button>
-                        </div>
-                      <div className="modal-body">
-                        <form>
-                          <div className="form-group">
-                            {/* <label htmlFor="recipient-name" className="col-form-label">select Event</label>
+                        {/* Modal */}
+                        <div
+                          className="modal fade"
+                          id="exampleModal"
+                          tabIndex="-1"
+                          role="dialog"
+                          aria-labelledby="exampleModalLabel"
+                          aria-hidden="true"
+                        >
+                          <div className="modal-dialog" role="document">
+                            <div className="modal-content">
+                              <div className="modal-header">
+                                <h5
+                                  className="modal-title"
+                                  id="exampleModalLabel"
+                                >
+                                  Book Now {event.eventId}
+                                </h5>
+                                <button
+                                  type="button"
+                                  className="close"
+                                  data-dismiss="modal"
+                                  aria-label="Close"
+                                >
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div className="modal-body">
+                                <form>
+                                  <div className="form-group">
+                                    {/* <label htmlFor="recipient-name" className="col-form-label">select Event</label>
                             <input type="text" className="form-control" id="recipient-name"/> */}
-                        <select id="ddlViewBy" onChange={handleOnchange} name="category">
-                          <option value="0"  selected="selected">Choose</option>
-                          <option value="1" >Silver</option>
-                          <option value="2"   >Gold</option>
-                          <option value="3"  >Dimond</option>
-                        </select>
-              
-                  
+                                    <h1 id="cat">Hello </h1>
+
+                                    <select
+                                      id="ddlViewBy"
+                                      onChange={handleOnchange}
+                                      name="category"
+                                    >
+                                      <option value="0" selected="selected">
+                                        Choose
+                                      </option>
+                                      <option value="1">Silver {event.price}</option>
+                                      <option value="2">Gold</option>
+                                      <option value="3">Dimond</option>
+                                    </select>
+                                  </div>
+                                  <div className="form-group">
+                                    <label
+                                      htmlFor="message-text"
+                                      className="col-form-label"
+                                    >
+                                      Quantity :
+                                    </label>
+                                    <input
+                                      type="number"
+                                      name="quantity"
+                                      min="1"
+                                      className="form-control"
+                                      onChange={handleOnchange}
+                                      id="input1"
+                                      placeholder="enter amount"
+                                    />
+                                  </div>
+                                </form>
+                              </div>
+                              <div className="modal-footer">
+                                <button
+                                  type="button"
+                                  className="btn btn-secondary"
+                                  data-dismiss="modal"
+                                >
+                                  Close
+                                </button>
+                                <button
+                                  type="button"
+                                  className="btn btn-primary"
+                                  onClick={handleModal}
+                                >
+                                  Book Ticket
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                          <div className="form-group">
-                            <label htmlFor="message-text" className="col-form-label">Quantity   :</label>
-                            <input type="number" name="quantity"  min="1" className="form-control" onChange={handleOnchange} id="input1" placeholder="enter amount"/>
-                            
+                        </div>
 
-                          </div>
-                        </form>
+                        <button
+                          className="flex btn btn-outline-success"
+                          data-toggle="modal"
+                          accessKey="b"
+                          data-target="#exampleModal"
+                          onClick={() => handleBook(event.eventId)}
+                          // onClick={()=>handleBook()}
+                        >
+                          Book
+                        </button>
+
+                        {/*  */}
                       </div>
-                      <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" className="btn btn-primary"  onClick={handleModal}>Book Ticket</button>
-                        
-                      </div>
                     </div>
-                    </div>
-                 </div>
-    
-
-
-                      <button
-                      
-                        className="flex btn btn-outline-success"
-                        data-toggle="modal"
-                        accessKey="b"
-                        data-target="#exampleModal"
-                        onClick={()=>handleBook(event.eventId)}
-                        // onClick={()=>handleBook()}
-                        
-                      >
-                        Book
-                      </button>
-
-                      {/*  */}
-                    </div>
-                  </div>
                   </div>
                 </div>
               );
-            })}
+            }
+            }
+            )}
           </>
         )}
       </div>

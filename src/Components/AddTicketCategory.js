@@ -21,12 +21,19 @@ export default function AddTicketCategory() {
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    let tx = await contract
+    try {
+      
+      
+      let tx = await contract
       .connect(tempSigner)
       .add_Ticket_Category(eventId, `${eventId}00${category}`, toWei(price), tickets);
-    console.log("🚀 ----------------------🚀");
-    console.log("🚀 ~ addEvent ~ tx:", tx);
-    console.log("🚀 ----------------------🚀");
+      await tx.wait()
+      alert("Ticket Category Added")
+    } 
+      catch (error) {
+        alert(error)
+      }
+  
     // setEvents(events.concat(event));
   };
 
@@ -41,7 +48,7 @@ export default function AddTicketCategory() {
     
     
     console.log("Calling handleSubmit.......");
-    setCategory({eventId:"",_category:"",price:"",tickets:""});
+    // setCategory({eventId:"",_category:"",price:"",tickets:""});
   };
 
   const onChange = (e) => {

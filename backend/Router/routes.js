@@ -11,6 +11,7 @@ router.get("/", async (req, res) => {
 router.get("/ViewEvent/:id", DataController.ViewEvent);
 router.get("/ViewAllEvent", DataController.ViewAllEvent);
 router.post("/ViewTicket", DataController.ViewTicket);
+router.get("/ViewMyTicket", DataController.ViewMyTicket);
 
 router.post("/CreateEvent", DataController.CreateEvent);
 router.post("/add_Ticket_Category", DataController.add_Ticket_Category);

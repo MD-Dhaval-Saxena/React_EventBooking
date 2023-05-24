@@ -1,7 +1,9 @@
 import React, { useState, useEffect,useContext } from "react";
 import DataContext from '../Context/dataContext';
+import { useNavigate  } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
 return(
     <>
    
@@ -20,6 +22,7 @@ return(
         <div>
           <button
             class="bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 rounded-md py-3 px-7 ml-1 text-center text-white"
+            onClick={()=>navigate("/EventTotal")}
           >
             Book Now
           </button>

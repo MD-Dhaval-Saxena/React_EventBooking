@@ -45,12 +45,14 @@ const toDate = (value) => {
 module.exports = {
   
   ViewEvent: async (req, res) => {
-    let events = []; // Stores the Json Data
+    let events = []; //Stores the Json Data
     let CatLen = [1, 2, 3];
     let event;
+    let category;
+    let tx1;
     let id = req.params.id;
-  
-    // Mapping that stores event data
+
+    //Mapping that stores event data
     // mapping(uint256 => Event) public eventInfo;
     const tx = await contracWithWallet.eventInfo(id);
     event = {
@@ -62,22 +64,22 @@ module.exports = {
       endBooking: toDate(tx.endBooking),
       tickets: parseInt(tx.tickets),
     };
-  
     if (!event.eventId == 0) {
-      for (let cID = 1; cID <= CatLen.length; cID++) {
-        const tx1 = await contracWithWallet.eventTicketCategories(id, `${id}00${cID}`);
-        const category = {
-          categoryID: `${id}00${cID}`,
-          price: parseInt(tx1.price),
-          totalTickets: parseInt(tx1.totalTickets),
-        };
-  
-        if (!category.price == 0 && !events.length == 0) {
-          event.push(category); // Push the category into the categories array
-        }
+      events.push(event);
+    }
+
+    for (let cID = 1; cID <= CatLen.length; cID++) {
+      tx1 = await contracWithWallet.eventTicketCategories(id, `${id}00${cID}`);
+      category = {
+        categoryID: `${id}00${cID}`,
+        price: parseInt(tx1.price),
+        totalTickets: parseInt(tx1.totalTickets),
+      };
+
+      if (!category.price == 0 && !event.eventId == 0) {
+        events.push(category);
       }
     }
-  
     if (!events.length == 0) {
       res.send(events);
     } else {
@@ -85,6 +87,22 @@ module.exports = {
     }
   },
   
+  ViewMyTicket:async(req,res)=>{
+    let Alldata=[];
+    let data;
+    let getTickets = await contracWithWallet.getTickets();
+    for (let i = 0; i < getTickets.length; i++) {
+      let No = getTickets[i];
+      const tx = await contracWithWallet.ViewTicket(No);
+      data={
+        category:parseInt(No),
+        tickets:parseInt(tx)
+      }
+      Alldata.push(data);
+    }
+    res.send(Alldata)
+
+  },
   ViewAllEvent: async (req, res) => {
     let events = [];
     let CatLen = [1, 2, 3]; //Fetch from contract
