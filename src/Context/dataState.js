@@ -29,6 +29,20 @@ const DataState = (props) => {
   useEffect(() => {
     checIfWalletIsConnected();
     send();
+    window.ethereum.on('accountsChanged', function () {
+      if (window.ethereum) {
+        window.ethereum
+          .request({ method: "eth_requestAccounts" })
+          .then((result) => {
+            accountHandler(result[0]);
+            setconnectBtn("Connected");
+          });
+      } else {
+        seterrMsg("Please Install Metamask Extention");
+      }
+    })
+   
+    
   }, []);
 
   const checIfWalletIsConnected = async () => {
@@ -82,25 +96,6 @@ const DataState = (props) => {
   };
 
 
-  const myTicket = async () => {
-    try {
-      const response = await fetch(`${host}ViewTicket`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ category: 7001 }),
-      });
-
-      /* eslint-disable */
-      const json = await response.json();
-      let ticket = json["Category Ticket balance"];
-
-      setTicket(ticket);
-    } catch (error) {
-      console.error("While fetching Notes Something went wrong");
-    }
-  };
 
   return (
     <DataContext.Provider
@@ -108,7 +103,6 @@ const DataState = (props) => {
         events,
         setEvents,
         ticket,
-        myTicket,
         contract,
         ConnectWalletHandler,
         defaultAccount,

@@ -6,7 +6,7 @@ const toWei = (value) => ethers.utils.parseEther(value.toString());
 
 export default function AddTicketCategory() {
   const context = useContext(DataContext);
-  const { contract } = context;
+  const { contract} = context;
  
 
   const [category, setCategory] = useState({

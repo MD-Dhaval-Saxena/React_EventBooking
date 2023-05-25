@@ -4,23 +4,22 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import NavbarOne from "./Components/NavbarOne";
+// import NavbarOne from "./Components/NavbarOne";
 import "./App.css";
-import Home from "./Components/Home";
-import Sample from "./Components/Sample";
-import ViewEvents from "./Components/ViewEvents";
+import Home from "./Pages/Home";
+import ViewEvents from "./Pages/ViewEvents";
 import DataState from "./Context/dataState";
-import CreateEvent from "./Components/CreateEvent";
-import AddTicketCategory from "./Components/AddTicketCategory";
-import VerifyTicket from "./Components/VerifyTicket";
-import EventTotal from "./Components/EventTotal";
-import Mytickets from "./Components/Mytickets";
+import CreateEvent from "./Pages/CreateEvent";
+import AddTicketCategory from "./Pages/AddTicketCategory";
+import VerifyTicket from "./Pages/VerifyTicket";
+import EventTotal from "./Pages/EventTotal";
+import Mytickets from "./Pages/Mytickets";
 import Loader from "./Components/Loader";
-import SearchEvent from "./Components/SearchEvent";
-import User from "./Components/User";
+import SearchEvent from "./Pages/SearchEvent";
 import Nav from "./Components/Nav";
-import ClaimRefund from "./Components/ClaimRefund";
-import CancelEvent from "./Components/CancelEvent";
+import ClaimRefund from "./Pages/ClaimRefund";
+import CancelEvent from "./Pages/CancelEvent";
+import SendPayment from "./Pages/SendPayment";
 
 function App() {
 
@@ -36,9 +35,7 @@ function App() {
           <Routes>
             <Route  path="/" element={<Home />} />
           </Routes>
-          <Routes>
-            <Route path="/link" element={<Sample/>} />
-          </Routes>
+          
         {/* IMplement Loader here */}
           <Routes>
             <Route  path="/EventTotal" 
@@ -58,9 +55,7 @@ function App() {
           <Routes>
             <Route path="/search" element={<SearchEvent/>} />
           </Routes>
-          <Routes>
-            <Route path="/user/:name" element={<User/> } />
-          </Routes>
+          
           <Routes>
             <Route path="/VerifyTicket" element={<VerifyTicket/> } />
           </Routes>
@@ -69,6 +64,9 @@ function App() {
           </Routes>
           <Routes>
             <Route path="/cancelEvent" element={<CancelEvent/> } />
+          </Routes>
+          <Routes>
+            <Route path="/sendPayment" element={<SendPayment/> } />
           </Routes>
           {/* </div> */}
         </BrowserRouter>

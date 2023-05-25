@@ -1,6 +1,6 @@
 require("dotenv").config();
-const connectToMongo=require('../backend/db');
-connectToMongo();
+// const connectToMongo=require('../backend/db');
+// connectToMongo();
 const express = require("express");
 const dataModel=require('../backend/Models/Event');
 

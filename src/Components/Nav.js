@@ -12,7 +12,11 @@ export default function Nav() {
 
   let location = useLocation();
 
-  useEffect(() => {}, [location]);
+  useEffect(
+    () => {
+      
+    }, [location]
+    );
 
   const handleConnect = () => {
     console.log("metmask connecting");
@@ -66,10 +70,10 @@ export default function Nav() {
           <Link className="dropdown-item" to="/VerifyTicket">Verify Ticket</Link>
           <Link className="dropdown-item" to="/claimRefund">Claim Refund</Link>
           <hr />
-          <p>Event Originizer only</p>
+          <p class="ml-4 font-bold"> Admin only</p>
           <hr />
           <Link className="dropdown-item" to="/cancelEvent">Cancel Event</Link>
-          <Link className="dropdown-item" to="/Mytickets">Send Payment</Link>
+          <Link className="dropdown-item" to="/sendPayment">Send Payment</Link>
           <hr />
           <Link className="dropdown-item"   to="/">Log Out</Link>
 
@@ -78,11 +82,11 @@ export default function Nav() {
     </div> 
    
         <li
-          class="mx-20  text-center cursor-pointer bg-white list-none hover:bg-blue-700 text-black w-[10rem]  rounded-md px-3 pt-1"
+          class="mx-20  text-center cursor-pointer bg-white list-none hover:bg-blue-700 text-black w-[7rem]  rounded-lg px-2 pt-1"
           onClick={ConnectWalletHandler}
         >
           {defaultAccount.length > 10
-            ? defaultAccount.substr(25, 42)
+            ? defaultAccount.substr(0, 5) + "..." + defaultAccount.substr(37, 42)
             : "Connect Wallet"}
         </li>
       </nav>

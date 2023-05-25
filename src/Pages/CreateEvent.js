@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext ,useCallback} from "react";
 import { Link } from "react-router-dom";
 import DataContext from "../Context/dataContext";
 import abi from "../ABI/abi.json";
-import Alert from "./Alert";
+import Alert from "../Components/Alert";
 const ethers = require("ethers");
 const toEth = (value) => ethers.utils.formatEther(value);
 const toWei = (value) => ethers.utils.parseEther(value.toString());

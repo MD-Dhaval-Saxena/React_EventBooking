@@ -1,8 +1,8 @@
 require("dotenv").config();
-
-const db = require("../db");
+const bookingModal = require("../Models/Booking");
 const ethers = require("ethers");
-const dataModel = require("../Models/Event");
+// const db=require('../db')
+// const mongoose = require("mongoose");
 const abi = require("../ABI/abi.json");
 const tokenAbi = require("../ABI/Token.json");
 const contract_address = process.env.contract_address;
@@ -43,7 +43,6 @@ const toDate = (value) => {
   return humanDateFormat;
 };
 module.exports = {
-  
   ViewEvent: async (req, res) => {
     let events = []; //Stores the Json Data
     let CatLen = [1, 2, 3];
@@ -86,22 +85,22 @@ module.exports = {
       res.send({ status: "No event Found" });
     }
   },
-  
-  ViewMyTicket:async(req,res)=>{
-    let Alldata=[];
+
+  ViewMyTicket: async (req, res) => {
+    let Alldata = [];
     let data;
-    let getTickets = await contracWithWallet.getTickets();
+    let getTickets = await contracWithWallet.returnCats();
+   
     for (let i = 0; i < getTickets.length; i++) {
       let No = getTickets[i];
       const tx = await contracWithWallet.ViewTicket(No);
-      data={
-        category:parseInt(No),
-        tickets:parseInt(tx)
-      }
+      data = {
+        category: parseInt(No),
+        tickets: parseInt(tx),
+      };
       Alldata.push(data);
     }
-    res.send(Alldata)
-
+    res.send(Alldata);
   },
   ViewAllEvent: async (req, res) => {
     let events = [];
@@ -149,7 +148,6 @@ module.exports = {
 
         if (!category.price == 0 && !event.eventId == 0) {
           events.push(category);
-
         }
       }
     }
@@ -157,7 +155,8 @@ module.exports = {
     if (!events.length == 0) {
       res.send(events);
     } else {
-      res.send({ status: "No events Found" });
+      // res.send({ status: "No events Found" });
+      res.send({ eventId: "404" });
     }
   },
   CreateEvent: async (req, res) => {
@@ -252,13 +251,62 @@ module.exports = {
         _quantity,
         valueAmount
       );
+
+      try {
+        const booking = new eventModel(
+          account,
+          eventId,
+          category,
+          _quantity,
+          valueAmount
+        );
+        console.log("🚀 -----------------------------------🚀");
+        console.log("🚀 ~ bookTicket: ~ booking:", booking);
+        console.log("🚀 -----------------------------------🚀");
+        await booking.save();
+      } catch (error) {
+        console.log(error);
+      }
+
       res.send({ Status: `Ticket Booked Succefully ID:${category}` });
     } catch (error) {
       // res.send( error);
       res.send(error.error.error.body);
     }
+    // Mongo
   },
+  // bookingMongo: async (req, res) => {
+  //   //     {
+  //   //       "eventId": 1,
+  //   //       "category": 1001,
+  //   //       "_quantity":1,
+  //   //       "value":0.1
 
+  //   // }
+  //   let data = req.body;
+  //   // let eventId= data.eventId;
+
+  //   // let BookingData = {
+  //   //   account: data.account,
+  //   //   eventId: data.eventId,
+  //   //   category: data.category,
+  //   //   quantity: data._quantity,
+  //   //   valueAmount: data.value,
+  //   // };
+  //   let BookingData = {
+  //     account: data.account,
+  //     BookingDetails: {
+  //       eventId: data.eventId,
+  //       EventName: "data.eventName",
+  //       Date:Date.now() ,
+  //       BookedOn: Date.now(),
+  //       quantity: data._quantity,
+  //       price: data.value
+  //     }
+  //   };
+  
+
+  
   ViewTicket: async (req, res) => {
     // {
     //  "category": 2

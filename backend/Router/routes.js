@@ -24,4 +24,6 @@ router.post("/claimRefund", DataController.claimRefund);
 router.post("/PaymentToOWner", DataController.PaymentToOWner);
 router.post("/setApprovalForAll", DataController.setApprovalForAll);
 
+// Mongo
+// router.post("/bookingMongo", DataController.bookingMongo);
 module.exports = router;

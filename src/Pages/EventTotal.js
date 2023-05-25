@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useContext } from "react";
-
 import DataContext from "../Context/dataContext";
-import Loader from "./Loader";
+import Loader from "../Components/Loader";
 const ethers = require("ethers");
+  
+
 
 export default function EventTotal() {
   const context = useContext(DataContext);
   const host = process.env.REACT_APP_Backend_Host;
   const { events, setEvents, contract, toEth, toWei } = context;
-
+  
   const [loading, setLoading] = useState(false);
-
   useEffect(() => {
     getData();
   }, []);
@@ -67,19 +67,19 @@ export default function EventTotal() {
     const getData = async () => {
       setLoading(true);
 
-    try {
-      const response = await fetch(`${host}ViewAllEvent`, {
-        method: "GET",
-      });
-      /* eslint-disable */
-      const json = await response.json();
-      console.log(json);
-      setEvents(json);
-    // setEvents(eventss);
+    // try {
+    //   const response = await fetch(`${host}ViewAllEvent`, {
+    //     method: "GET",
+    //   });
+    //   /* eslint-disable */
+    //   const json = await response.json();
+    //   console.log(json);
+      // setEvents(json);
+    setEvents(eventss);
     setLoading(false);
-    } catch (error) {
-      console.error("While fetching Events Something went wrong");
-    }
+    // } catch (error) {
+    //   console.error("While fetching Events Something went wrong");
+    // }
   };
   const [Booking, setBooking] = useState({
     category: 0,
@@ -120,6 +120,8 @@ export default function EventTotal() {
       // alert("User Rejected Booking")
 
     }
+    
+    
         
   };
 
@@ -136,6 +138,7 @@ export default function EventTotal() {
 
     // console.log({BookId,...Booking});
     Book(BookId, parseInt(Booking.category), parseInt(Booking.quantity));
+  
   };
   const handleOnchange = (e) => {
     setBooking({ ...Booking, [e.target.name]: e.target.value });
@@ -156,11 +159,10 @@ export default function EventTotal() {
         ) : (
           <>
             {events.map((event, eventId) => {
-              if(event.categoryID>=0){
-                // console.log("hello");
-              }
-              else if(events.length==0){
-                return(<h1>No Event found</h1>)
+             
+               if(event.categoryID>=0){
+                // return <h1>NO event Found </h1>
+                console.log("hello");
               }
               else{
 
@@ -212,8 +214,12 @@ export default function EventTotal() {
                                   <div className="form-group">
                                     {/* <label htmlFor="recipient-name" className="col-form-label">select Event</label>
                             <input type="text" className="form-control" id="recipient-name"/> */}
-                                    <h1 id="cat">Hello </h1>
-
+                                    <div class="condition bg-gray-100 italic">
+                                    <h6 id="cat ">Conditions</h6>
+                                    <p class="text-sm text-gray-600">Entry in screen will be given Verify your ticket before 5 min of the show time.</p>
+                                    <p class="text-sm text-gray-600">If there is any show breakdown or cancellation due to technical reasons, your money will be refunded.</p>
+                                    <p class="text-sm text-gray-600">Ticket cancellation charge is 10%</p>
+                                    </div>
                                     <select
                                       id="ddlViewBy"
                                       onChange={handleOnchange}

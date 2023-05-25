@@ -42,7 +42,12 @@ export default function VerifyTicket() {
 return(
     <>
     <h3 class="m-3 text-center" >Verify Your Ticket Here</h3>
-    {/* Condition here */}
+     <div className="text-center italic">
+    <p class="text-sm text-red-100 font-bold text-xl">Only Access At Event Venue</p>
+    <p class="text-sm text-white">Entry in screen will be given Verify your ticket before 5 min of the show time.</p>
+    <p class="text-sm text-white">Once You Verify ticket,Ticket Will be Burned.</p>
+
+     </div>
 
     <hr/>
     <div className="container" class="flex justify-center items-center">
