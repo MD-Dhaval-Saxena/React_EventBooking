@@ -14,6 +14,8 @@ const DataState = (props) => {
   const [ticketData, setTicketData] = useState([]);
 
   const [ticket, setTicket] = useState(0);
+  const [BookId, setBookId] = useState(0);
+
 
   // Metamask
   const [errMsg, seterrMsg] = useState("");
@@ -29,21 +31,21 @@ const DataState = (props) => {
   useEffect(() => {
     checIfWalletIsConnected();
     send();
-    window.ethereum.on('accountsChanged', function () {
-      if (window.ethereum) {
-        window.ethereum
-          .request({ method: "eth_requestAccounts" })
-          .then((result) => {
-            accountHandler(result[0]);
-            setconnectBtn("Connected");
-          });
-      } else {
-        seterrMsg("Please Install Metamask Extention");
-      }
-    })
-   
     
   }, []);
+
+  window.ethereum.on('accountsChanged', function () {
+    if (window.ethereum) {
+      window.ethereum
+        .request({ method: "eth_requestAccounts" })
+        .then((result) => {
+          accountHandler(result[0]);
+          setconnectBtn("Connected");
+        });
+    } else {
+      seterrMsg("Please Install Metamask Extention");
+    }
+  })
 
   const checIfWalletIsConnected = async () => {
     try {
@@ -95,11 +97,66 @@ const DataState = (props) => {
     }
   };
 
+  
+
+  // const handleLogOut=(e)=>{
+  //   setprovider(null);
+  //   setsigner(null);
+  //   setcontract(null);
+  //   // Clear all useStates
+  //   console.log("🚀 ----------------------------------------------🚀")
+  //   console.log("🚀 ~ handleLogOut ~ handleLogOut:", handleLogOut)
+  //   console.log("🚀 ----------------------------------------------🚀")
+  // }
+
+
+  // Reuseble for Two Pages (Search And ViewAll Events )
+  const Book = async (eventId, category, quantity) => {
+    let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
+    let tempSigner = tempProvider.getSigner();
+
+    let tx = await contract
+      .connect(tempSigner)
+      .eventTicketCategories(eventId, `${eventId}00${category}`);
+
+    console.log(
+      "🚀 ----------------------------------------------------------------🚀"
+    );
+    console.log(
+      "🚀 ~ Book ~ `${eventId}00${category}`:",
+      `${eventId}00${category}`
+    );
+    console.log(
+      "🚀 ----------------------------------------------------------------🚀"
+    );
+    let val = toEth(tx.price) * quantity;
+
+    let valueAmount = { value: toWei(val) };
+    try {
+      let book = await contract
+        .connect(tempSigner)
+        .bookTicket(eventId, `${eventId}00${category}`, quantity, valueAmount);
+        await book.wait()
+
+        alert(`"Status": "Ticket Booked Succefully ID: ${eventId}00${category}"`)
+      
+    } catch (error) {
+      console.log(error);
+      alert(error)
+      // alert("User Rejected Booking")
+
+    }
+        
+  };
+
 
 
   return (
     <DataContext.Provider
       value={{
+        Book,
+        BookId,
+        setBookId,
         events,
         setEvents,
         ticket,
@@ -109,7 +166,9 @@ const DataState = (props) => {
         toEth,
         toWei,
         ticketData,
-        setTicketData
+        setTicketData,
+        contract_address,
+        // handleLogOut
       }}
     >
       {props.children}

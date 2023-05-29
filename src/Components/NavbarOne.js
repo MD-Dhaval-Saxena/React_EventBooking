@@ -98,7 +98,7 @@ function NavbarOne() {
           <Link className="dropdown-item"  to="/addCategory">Add Ticket Category</Link>
           <Link className="dropdown-divider"></Link>
           <Link className="dropdown-item" to="/search">Search Event</Link>
-          <Link className="dropdown-item" to="/EventTotal">Show Events </Link>
+          <Link className="dropdown-item" to="/ViewEvents">Show Events </Link>
         </div>
       </li>
    

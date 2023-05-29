@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useContext ,useCallback} from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useContext ,useRef} from "react";
+import { Form, Link } from "react-router-dom";
 import DataContext from "../Context/dataContext";
 import abi from "../ABI/abi.json";
 import Alert from "../Components/Alert";
@@ -9,8 +9,11 @@ const toWei = (value) => ethers.utils.parseEther(value.toString());
 
 export default function CreateEvent() {
 
+  document.title="EventGO ~ Create Event";
   const context = useContext(DataContext);
   const { contract } = context;
+
+  const formRef = useRef();
   
   const contract_address = process.env.REACT_APP_contract_address;
 
@@ -26,11 +29,23 @@ export default function CreateEvent() {
 
     let tempProvider = new ethers.providers.Web3Provider(window.ethereum);
     let tempSigner = tempProvider.getSigner();
-    let tx = await contract
+    try {
+      
+      let tx = await contract
       .connect(tempSigner)
       .createEvent(eventId, EventName, Date, startBooking, endBooking, tickets);
-    await tx.await()
-    alert("Event Created Succefully")
+      await tx.wait();
+      console.log("🚀 -----------------------------------------🚀")
+      console.log("🚀 ~ CreateEvent ~ resetField:", resetField)
+      console.log("🚀 -----------------------------------------🚀")
+      alert("Event Created Succefully")
+    } 
+      
+    catch (error) {
+      alert(error)
+
+      
+    }
     // <Alert/>
     // setEvents(events.concat(event));
   };
@@ -44,6 +59,18 @@ export default function CreateEvent() {
     tickets:"99",
   });
 
+  const resetField=()=>{
+    // / For Clearing Fields
+    setEvents({ eventId: "",
+    eventId: "",
+    EventName: " ",
+    Date: "",
+    startBooking: "",
+    endBooking: "",
+    tickets:""
+  })
+  }
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -56,6 +83,7 @@ export default function CreateEvent() {
       parseInt(event.tickets)
     );
     console.log("Calling handleSubmit.......");
+    formRef.current.reset();
     // For Clearing Fields
   //   setEvents({ eventId: "",
   //   eventId: "",
@@ -65,7 +93,7 @@ export default function CreateEvent() {
   //   endBooking: "",
   //   tickets:""
   // })
-  console.log("Clear event Calling..");
+  // console.log("Clear event Calling..");
   
     
   };
@@ -87,7 +115,7 @@ export default function CreateEvent() {
         <h3 class="my-3 ">CreateEvent here</h3>
       </center>
       <div className="container">
-        <form>
+        <form ref={formRef}>
           <div className="form-group">
             <input
               type="text"

@@ -3,6 +3,8 @@ import DataContext from '../Context/dataContext';
 import { useNavigate  } from "react-router-dom";
 
 export default function Home() {
+  document.title="EventGO ~ Home";
+
   const navigate = useNavigate();
 return(
     <>
@@ -22,12 +24,14 @@ return(
         <div>
           <button
             class="bg-gradient-to-tr from-purple-600 via-violet-600 to-indigo-600 rounded-md py-3 px-7 ml-1 text-center text-white"
-            onClick={()=>navigate("/EventTotal")}
+            onClick={()=>navigate("/ViewEvents")}
           >
             Book Now
           </button>
           <button
             class="bg-black rounded-md border-2 border-indigo-300 py-3 px-6 ml-4 text-center text-white"
+            onClick={()=>navigate("/ViewEvents")}
+
           > 
             Explore More
           </button>

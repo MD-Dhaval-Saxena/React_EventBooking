@@ -1,10 +1,14 @@
-import React, { useState, useEffect, useContext ,useCallback} from "react";
+import React, { useState, useEffect, useContext,useRef} from "react";
 import DataContext from "../Context/dataContext";
 const ethers = require("ethers");
 const toEth = (value) => ethers.utils.formatEther(value);
 const toWei = (value) => ethers.utils.parseEther(value.toString());
 
 export default function AddTicketCategory() {
+  const formRef = useRef();
+
+  document.title="EventGO ~ Add Ticket Category";
+
   const context = useContext(DataContext);
   const { contract} = context;
  
@@ -34,7 +38,6 @@ export default function AddTicketCategory() {
         alert(error)
       }
   
-    // setEvents(events.concat(event));
   };
 
   const handleSubmit = (e) => {
@@ -45,6 +48,8 @@ export default function AddTicketCategory() {
       parseFloat(category.price),
       parseInt(category.tickets),
     );
+    formRef.current.reset();
+
     
     
     console.log("Calling handleSubmit.......");
@@ -61,7 +66,7 @@ export default function AddTicketCategory() {
         <h3 class="my-3">Add Ticket Categories here</h3>
       </center>
       <div className="container">
-        <form >
+        <form ref={formRef}>
           <div className="form-group">
             <input
               type="text"

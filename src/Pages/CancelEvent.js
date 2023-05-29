@@ -1,8 +1,12 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState, useEffect,useContext,useRef } from "react";
 import DataContext from '../Context/dataContext';
 const ethers = require("ethers");
 
 export default function CancelEvent() {
+  const formRef = useRef();
+
+    document.title="EventGO ~ Cancel Event ";
+
     const context = useContext(DataContext);
     const { contract } = context;
      const host = process.env.REACT_APP_Backend_Host;
@@ -15,6 +19,8 @@ export default function CancelEvent() {
      const handleSubmit = (e) => {
         e.preventDefault();
         Cancel_event(event.eventId);
+        formRef.current.reset();
+
         
       };
     
@@ -44,7 +50,7 @@ return(
     {/* Condition here */}
     <hr/>
     <div className="container" class="flex justify-center items-center">
-        <form>
+        <form ref={formRef}>
           <div className="form-group" class="flex space-x-4 ">
             <input
               type="text"

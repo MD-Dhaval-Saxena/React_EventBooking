@@ -1,8 +1,12 @@
-import React, { useState, useEffect,useContext } from "react";
+import React, { useState,useContext,useRef} from "react";
 import DataContext from '../Context/dataContext';
 const ethers = require("ethers");
 
 export default function VerifyTicket() {
+    const formRef = useRef();
+
+    document.title="EventGO ~ Verify Ticket";
+  
     const context = useContext(DataContext);
     const { contract } = context;
      const host = process.env.REACT_APP_Backend_Host;
@@ -15,6 +19,7 @@ export default function VerifyTicket() {
      const handleSubmit = (e) => {
         e.preventDefault();
         VerifyTicket(event.eventId,event.category);
+        formRef.current.reset();
         
       };
     
@@ -43,7 +48,7 @@ return(
     <>
     <h3 class="m-3 text-center" >Verify Your Ticket Here</h3>
      <div className="text-center italic">
-    <p class="text-sm text-red-100 font-bold text-xl">Only Access At Event Venue</p>
+    <p class="text-red-100 font-bold text-xl">Only Access At Event Venue</p>
     <p class="text-sm text-white">Entry in screen will be given Verify your ticket before 5 min of the show time.</p>
     <p class="text-sm text-white">Once You Verify ticket,Ticket Will be Burned.</p>
 
@@ -51,7 +56,7 @@ return(
 
     <hr/>
     <div className="container" class="flex justify-center items-center">
-        <form>
+        <form ref={formRef}>
           <div className="form-group" class="flex space-x-4 ">
             <input
               type="text"

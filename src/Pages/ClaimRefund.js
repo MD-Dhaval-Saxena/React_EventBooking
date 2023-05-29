@@ -3,6 +3,8 @@ import DataContext from '../Context/dataContext';
 const ethers = require("ethers");
 
 export default function ClaimRefund() {
+  document.title="EventGO ~ ClaimRefund";
+
     const context = useContext(DataContext);
     const { contract } = context;
      const host = process.env.REACT_APP_Backend_Host;

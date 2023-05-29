@@ -1,8 +1,12 @@
-import React, { useState, useEffect, useContext, useCallback } from "react";
+import React, { useState, useEffect, useContext, useCallback,useRef } from "react";
 import DataContext from "../Context/dataContext";
 import Loader from "../Components/Loader";
+import BookModal from "../Components/BookModal";
 
 export default function CreateEvent() {
+  const formRef = useRef();
+
+  document.title="EventGO ~ Search";
   const host = process.env.REACT_APP_Backend_Host;
   console.log("🚀 -----------------------------🚀");
   console.log("🚀 ~ CreateEvent ~ host:", host);
@@ -20,6 +24,15 @@ export default function CreateEvent() {
   const handleSubmit = (e) => {
     e.preventDefault();
     searchEvent(event.eventId);
+    formRef.current.reset();
+
+    
+  };
+  const handleBook = (e) => {
+    e.preventDefault();
+    console.log("🚀 ----------------------------------------🚀")
+    console.log("🚀 ~ handleBook ~ handleBook:", handleBook)
+    console.log("🚀 ----------------------------------------🚀")
     
   };
 
@@ -50,7 +63,7 @@ export default function CreateEvent() {
         <h3>Search here</h3>
       </center>
       <div className="container">
-        <form>
+        <form ref={formRef}>
           <div className="form-group">
             <input
               type="text"
@@ -102,8 +115,8 @@ export default function CreateEvent() {
                               View More
                             </a>
                           </div>
-                          <div className="col-auto d-none d-lg-block">
-                            <svg
+                          {/* <div className="col-auto d-none d-lg-block"> */}
+                            {/* <svg
                               className="bd-placeholder-img"
                               width="200"
                               height="250"
@@ -121,8 +134,21 @@ export default function CreateEvent() {
                               <text x="50%" y="50%" fill="#eceeef" dy=".3em">
                                 Thumbnail
                               </text>
-                            </svg>
+                            </svg> */}
+                            <div className="m-auto p-20">
+                            <BookModal/>
+
+                            <button
+                          className="btn btn-outline-info"
+                          type="submit"
+                          onClick={handleBook}
+                          data-toggle="modal"
+                          data-target="#exampleModal"
+                          >
+                          Book
+                        </button>
                           </div>
+                          {/* </div> */}
                         </div>
                       </div>
                     );

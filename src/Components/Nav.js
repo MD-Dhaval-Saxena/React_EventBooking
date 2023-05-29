@@ -1,28 +1,15 @@
 import React, { useState, useEffect, useContext } from "react";
 import DataContext from "../Context/dataContext";
 import abi from "../ABI/abi.json";
-import { useLocation, Link } from "react-router-dom";
+import {Link } from "react-router-dom";
 const ethers = require("ethers");
 
 export default function Nav() {
   const context = useContext(DataContext);
-  const { ConnectWalletHandler, defaultAccount } = context;
+  const { ConnectWalletHandler, defaultAccount,handleLogOut } = context;
 
   const contract_address = process.env.REACT_APP_contract_address;
 
-  let location = useLocation();
-
-  useEffect(
-    () => {
-      
-    }, [location]
-    );
-
-  const handleConnect = () => {
-    console.log("metmask connecting");
-
-    ConnectWalletHandler();
-  };
   return (
     <>
       <nav class="bg-blue-900 py-2 text-white flex justify-between">
@@ -30,7 +17,7 @@ export default function Nav() {
           src="music.png"
           class="h-9 px-10 ml-8 rounded-2xl"
           alt=""
-          srcset=""
+          srcSet=""
         />
 
         <ul class="px-28 flex items-center space-x-20 justify-start font-ui-monospace">
@@ -54,7 +41,7 @@ export default function Nav() {
           </Link>
           <Link
             class="text-white  decoration-black  hover:rounded  mx-2 cursor-pointer"
-            to="/EventTotal"
+            to="/ViewEvents"
           >
             View Events
           </Link>
@@ -75,7 +62,8 @@ export default function Nav() {
           <Link className="dropdown-item" to="/cancelEvent">Cancel Event</Link>
           <Link className="dropdown-item" to="/sendPayment">Send Payment</Link>
           <hr />
-          <Link className="dropdown-item"   to="/">Log Out</Link>
+          {/* <Link className="dropdown-item" onClick={handleLogOut}>Log Out</Link> */}
+          <Link className="dropdown-item" >Log Out</Link>
 
           <Link className="dropdown-divider"></Link>
         </div>
